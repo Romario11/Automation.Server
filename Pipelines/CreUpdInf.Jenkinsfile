@@ -6,12 +6,13 @@ pipeline{
     stages{
         stage('Cloning Git') {
                  steps {
-                     git url:'https://github.com/Romario11/redmine-demo-2.git', branch:'main'
+                     git url:'git@ssh.dev.azure.com:v3/rsavchu/test/Automation.Server', branch:'main'
                  }
             }
         stage('ls') {
                      steps {
               sh 'ls -la'
+            }
             }
         stage('terraform init'){
             steps{
