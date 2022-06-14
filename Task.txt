@@ -1,0 +1,13 @@
+Task 1
+•	Spin up Jenkins or any other automation server
+•	Create terraform repository managing web application infrastructure on AWS:
+o   	AWS VPC and Subnets (public and private)
+o   	S3 bucket 
+o   	S3 object with static html webpage
+o   	ASG with EC2 instances (configured to host static webpage downloaded from S3) deployed in private subnets
+o   	ALB deployed in public subnet to distribute load between autoscaling group members
+•	Create Jenkins pipeline to automatically deploy terraform code on changes
+•	Configure build hook
+•	Use Jenkinsfile (if you are using Jenkins)
+•	Change in the html file in the source code shall trigger recreation of the EC2 instances
+•	Tip: to trigger creation of new object on change use etag; for ASG put etag into a tag;
