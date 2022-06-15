@@ -6,14 +6,10 @@ pipeline{
     }
     stages{
         stage('Cloning Git') {
-                 steps {
-                     git url:'git@ssh.dev.azure.com:v3/rsavchu/test/Automation.Server', branch:'main'
-                 }
+                     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'azureDevOps', url: 'git@ssh.dev.azure.com:v3/rsavchu/test/Automation.Server']]]
             }
         stage('ls') {
-                     steps {
               sh 'ls -la'
-            }
             }
         stage('terraform init'){
             steps{
@@ -30,16 +26,7 @@ pipeline{
                 sh 'terraform apply -auto-approve'
             }
         }
-        stage('Input') {
-            steps {
-                input('Do you want to terraform destroy?')
-            }
-        }
 
-        stage('If Proceed is clicked') {
-            steps {
-                sh 'terraform apply -destroy -auto-approve'
-            }
-        }
+
     }
 }
