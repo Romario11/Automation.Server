@@ -40,7 +40,7 @@ resource "aws_launch_configuration" "web-servers" {
 }
 
 
-resource "aws_autoscaling_group" "example" {
+resource "aws_autoscaling_group" "auto_scaling" {
   name = "ASG"
   desired_capacity   = 2
   max_size           = 3
@@ -49,7 +49,9 @@ resource "aws_autoscaling_group" "example" {
   target_group_arns = [aws_lb_target_group.alb_tg.arn]
   launch_configuration = aws_launch_configuration.web-servers.id
   vpc_zone_identifier  = [aws_subnet.private_subnet_1.id,aws_subnet.private_subnet_2.id]
-  default_cooldown = 30
+  default_cooldown = 20
+  delete = 1
+  health_check_grace_period = 30
 
   tag {
     key                 = "Etag"
@@ -75,21 +77,21 @@ resource "aws_security_group" "web_server_firewall" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [aws_vpc.my_vpc.cidr_block]
   }
 
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [aws_vpc.my_vpc.cidr_block]
   }
 
   ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [aws_vpc.my_vpc.cidr_block]
   }
   ingress {
     from_port   = -1
