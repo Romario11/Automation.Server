@@ -50,7 +50,6 @@ resource "aws_autoscaling_group" "auto_scaling" {
   launch_configuration = aws_launch_configuration.web-servers.id
   vpc_zone_identifier  = [aws_subnet.private_subnet_1.id,aws_subnet.private_subnet_2.id]
   default_cooldown = 20
-  delete = 1
   health_check_grace_period = 30
 
   tag {
