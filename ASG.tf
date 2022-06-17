@@ -50,7 +50,7 @@ resource "aws_autoscaling_group" "auto_scaling" {
   launch_configuration = aws_launch_configuration.web-servers.id
   vpc_zone_identifier  = [aws_subnet.private_subnet_1.id,aws_subnet.private_subnet_2.id]
   default_cooldown = 20
-  health_check_grace_period = 30
+  health_check_grace_period = 20
 
   tag {
     key                 = "Etag"
@@ -61,7 +61,7 @@ resource "aws_autoscaling_group" "auto_scaling" {
   instance_refresh {
     strategy = "Rolling"
     preferences {
-      min_healthy_percentage = 0
+      min_healthy_percentage = 50
     }
     triggers = ["tag"]
   }
